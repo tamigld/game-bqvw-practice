@@ -5,6 +5,7 @@ export default class Demo extends Phaser.Scene {
 
   plataformas !: Phaser.Physics.Arcade.StaticGroup
   player !: any
+  cursors !: Phaser.Types.Input.Keyboard.CursorKeys
 
   constructor() {
     super('GameScene');
@@ -70,6 +71,26 @@ export default class Demo extends Phaser.Scene {
   }
 
   update(time: number, delta: number): void {
-  }
-  
+    this.cursors = this.input.keyboard.createCursorKeys();
+
+    if (this.cursors.left.isDown) {
+      this.player.setVelocityX(-160);
+
+      this.player.anims.play('left', true);
+    }
+    else if (this.cursors.right.isDown) {
+      this.player.setVelocityX(160);
+
+      this.player.anims.play('right', true);
+    }
+    else {
+      this.player.setVelocityX(0);
+
+      this.player.anims.play('turn');
+    }
+
+    if (this.cursors.up.isDown && this.player.body.touching.down) {
+      this.player.setVelocityY(-330);
+    }
+  }  
 }
